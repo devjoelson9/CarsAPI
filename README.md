@@ -12,8 +12,3 @@ Com esta API, você poderá:
 * **Excluir registros de veículos** que não são mais relevantes.
 
 A API foi projetada com foco em **simplicidade, escalabilidade e manutenibilidade**, garantindo que possa ser facilmente integrada a diversas aplicações front-end ou outros sistemas que necessitem gerenciar uma frota de carros ou informações automotivas. É a ferramenta ideal para construir plataformas de venda de carros, sistemas de locadoras ou qualquer aplicação que precise de um backend confiável para dados de veículos.
-
----
-
-## Como Usar (Exemplo de Seção)
-[Aqui você adicionaria instruções sobre como instalar, rodar a API, endpoints, etc.]
