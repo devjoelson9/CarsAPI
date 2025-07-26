@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocorreu um Erro!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        .error-container {
+            background-color: #ffe6e6;
+            border: 1px solid #ffcccc;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        h1 {
+            color: #cc0000;
+        }
+        p {
+            font-size: 1.1em;
+            margin-top: 15px;
+        }
+        .error-message {
+            font-family: monospace;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="error-container">
+    <h1>Ops! Algo deu errado.</h1>
+    <p>Pedimos desculpas pelo inconveniente.</p>
+
+    <p th:if="${errorMessage}">
+        Detalhes do Erro: <span class="error-message" th:text="${errorMessage}">Mensagem de erro genérica.</span>
+    </p>
+
+    <p>Por favor, tente novamente mais tarde ou contate o suporte.</p>
+    <p><a href="/">Voltar para a página inicial</a></p>
+</div>
+</body>
+</html>
