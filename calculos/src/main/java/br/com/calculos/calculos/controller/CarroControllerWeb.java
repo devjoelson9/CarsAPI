@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
-public class Thyme {
+public class CarroControllerWeb {
 
     private final CarroService carroService;
 
