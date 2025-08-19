@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Loja de Carros</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Importação de fontes */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        /* Variáveis CSS para cores e espaçamentos */
+        :root {
+            --primary-color: #007bff; /* Azul */
+            --secondary-color: #6c757d; /* Cinza */
+            --text-color: #343a40; /* Preto escuro */
+            --background-color: #f8f9fa; /* Cinza claro */
+            --card-bg: #ffffff; /* Branco para cartões */
+            --border-color: #e9ecef; /* Borda leve */
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --spacing-sm: 10px;
+            --spacing-md: 20px;
+            --spacing-lg: 40px;
+        }
+
+        /* Reset básico e tipografia */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--card-bg);
+            padding: var(--spacing-md) 0;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px var(--shadow-light);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 700;
+            padding: var(--spacing-sm) var(--spacing-md);
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Botões */
+        .btn-primary, .btn-secondary {
+            display: inline-block;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--card-bg);
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Tom mais escuro */
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: var(--card-bg);
+        }
+
+        .btn-secondary:hover {
+            background-color: #545b62; /* Tom mais escuro */
+            transform: translateY(-2px);
+        }
+
+        /* Carrossel de Destaque */
+        .carousel-section {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .carousel-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%; /* Garante que o container ocupe a largura total */
+        }
+
+        .carousel-slide {
+            min-width: 100%; /* Cada slide ocupa 100% do container */
+            flex-shrink: 0; /* Impede que os slides encolham */
+            height: 500px; /* Altura fixa para o carrossel */
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--card-bg); /* Cor do texto no slide */
+            text-align: center;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Garante que a imagem cubra todo o slide */
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .carousel-caption {
+            position: relative; /* Para ficar acima da imagem */
+            z-index: 2;
+            background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente para o texto */
+            padding: var(--spacing-md);
+            border-radius: 8px;
+            max-width: 80%;
+        }
+
+        .carousel-caption h3 {
+            font-size: 2.5em;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .carousel-caption p {
+            font-size: 1.2em;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--card-bg);
+            border: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-size: 1.5em;
+            cursor: pointer;
+            z-index: 3;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .carousel-button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .carousel-button.prev {
+            left: var(--spacing-md);
+        }
+
+        .carousel-button.next {
+            right: var(--spacing-md);
+        }
+
+        /* Listagem de Carros */
+        .car-listing {
+            padding-top: var(--spacing-lg);
+            padding-bottom: var(--spacing-lg);
+        }
+
+        .car-listing h3 {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: var(--spacing-lg);
+            color: var(--text-color);
+        }
+
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-md);
+            justify-content: center;
+        }
+
+        .car-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px var(--shadow-light);
+            text-align: center;
+            padding-bottom: var(--spacing-md);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .car-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .car-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            margin-bottom: var(--spacing-sm);
+            display: block; /* Remove espaço extra abaixo da imagem */
+        }
+
+        .car-card h4 {
+            font-size: 1.5em;
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary-color);
+        }
+
+        .car-card p {
+            font-size: 0.9em;
+            color: var(--secondary-color);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .car-card .price {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--text-color);
+            display: block;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .car-listing .load-more {
+            display: block;
+            margin: var(--spacing-lg) auto;
+            width: fit-content;
+        }
+
+        /* Seção de Localização */
+        .location-section {
+            padding: var(--spacing-lg) 0;
+            text-align: center;
+            background-color: var(--card-bg); /* Fundo claro para a seção */
+            border-top: 1px solid var(--border-color);
+        }
+
+        .location-section h3 {
+            font-size: 2em;
+            margin-bottom: var(--spacing-lg);
+            color: var(--text-color);
+        }
+
+        .location-content {
+            display: flex;
+            flex-wrap: wrap; /* Permite que os itens quebrem linha */
+            justify-content: center;
+            gap: var(--spacing-lg); /* Espaço entre mapa e informações */
+            align-items: flex-start; /* Alinha no topo */
+        }
+
+        .map-container {
+            flex: 1 1 500px; /* Cresce e encolhe, mínimo de 500px */
+            max-width: 100%;
+            border-radius: 8px;
+            overflow: hidden; /* Garante que o iframe não vaze as bordas */
+            box-shadow: 0 4px 8px var(--shadow-light);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 450px; /* Altura fixa do mapa */
+            display: block; /* Remove espaço extra abaixo do iframe */
+        }
+
+        .address-info {
+            flex: 1 1 300px; /* Cresce e encolhe, mínimo de 300px */
+            max-width: 100%;
+            text-align: left;
+            padding: var(--spacing-md);
+            background-color: var(--background-color);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px var(--shadow-light);
+        }
+
+        .address-info h4 {
+            font-size: 1.8em;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .address-info p {
+            margin-bottom: var(--spacing-sm);
+            font-size: 1.1em;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--text-color);
+            color: var(--card-bg);
+            padding: var(--spacing-md) 0;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .footer .social-links a {
+            color: var(--card-bg);
+            text-decoration: none;
+            margin: 0 var(--spacing-sm);
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .nav ul {
+                flex-direction: column;
+                margin-top: var(--spacing-sm);
+            }
+
+            .nav-link {
+                padding: var(--spacing-sm) 0;
+            }
+
+            .carousel-slide {
+                height: 300px; /* Altura menor para o carrossel em telas pequenas */
+            }
+            .carousel-caption h3 {
+                font-size: 1.8em;
+            }
+            .carousel-caption p {
+                font-size: 1em;
+            }
+
+            .car-grid {
+                grid-template-columns: 1fr; /* Uma coluna em telas pequenas */
+            }
+
+            .location-content {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .map-container, .address-info {
+                flex: 1 1 100%; /* Ocupa a largura total */
+            }
+            .map-container iframe {
+                height: 300px; /* Altura menor do mapa em telas pequenas */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Auto Premium</h1>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#" class="nav-link">Home</a></li>
+                    <li><a href="#" class="nav-link">Carros</a></li>
+                    <li><a href="#location-section" class="nav-link">Localização</a></li>
+                    <li><a href="#" class="nav-link">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="carousel-section">
+            <div class="carousel-container">
+                <div class="carousel-slide">
+                    <img src="https://s2-autoesporte.glbimg.com/ccGIq1oaLH0z9LkTZWHnZ4bdgGY=/0x0:2513x1519/1008x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2019/Z/l/TKcnTlTFmjrbbvl8Xpuw/toyota-corolla-hibrido-6.jpg" alt="Toyota Corolla Híbrido">
+                    <div class="carousel-caption">
+                        <h3>Toyota Corolla Híbrido</h3>
+                        <p>Economia e estilo em um só lugar.</p>
+                        <button class="btn-primary">Saiba Mais</button>
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="https://argo.fiat.com.br/asset/versions/358ACS1/249.webp" alt="Fiat Argo">
+                    <div class="carousel-caption">
+                        <h3>Fiat Argo</h3>
+                        <p>Design moderno e tecnologia para o seu dia a dia.</p>
+                        <button class="btn-primary">Saiba Mais</button>
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="https://revistacarro.com.br/wp-content/uploads/2022/04/BYD-Tan-EV.jpg" alt="BYD Tan EV">
+                    <div class="carousel-caption">
+                        <h3>BYD Tan EV</h3>
+                        <p>O futuro da mobilidade elétrica.</p>
+                        <button class="btn-primary">Saiba Mais</button>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-button prev">❮</button>
+            <button class="carousel-button next">❯</button>
+        </section>
+
+        <section class="car-listing container">
+            <h3>Nossos Destaques</h3>
+            <div id="car-grid" class="car-grid">
+                <div class="car-card">
+                    <img src="https://revistacarro.com.br/wp-content/uploads/2022/04/BYD-Tan-EV.jpg" alt="Carro Modelo 1">
+                    <h4>Modelo A</h4>
+                    <p>Marca A | 2023</p>
+                    <span class="price">R$ 85.000</span>
+                    <button class="btn-secondary">Ver Detalhes</button>
+                </div>
+                <div class="car-card">
+                    <img src="https://canalve.com.br/wp-content/uploads/2024/02/BYD-Yuan-UP-4-jpg.webp" alt="Carro Modelo 2">
+                    <h4>Modelo B</h4>
+                    <p>Marca B | 2022</p>
+                    <span class="price">R$ 72.000</span>
+                    <button class="btn-secondary">Ver Detalhes</button>
+                </div>
+                <div class="car-card">
+                    <img src="https://www.encontracarros.com.br/upload/toyota/toyota-sw4-2025-02.jpg" alt="Carro Modelo 3">
+                    <h4>Modelo C</h4>
+                    <p>Marca C | 2024</p>
+                    <span class="price">R$ 110.000</span>
+                    <button class="btn-secondary">Ver Detalhes</button>
+                </div>
+            </div>
+            <button id="load-more-btn" class="btn-primary load-more">Carregar Mais Carros</button>
+        </section>
+
+        <section id="location-section" class="location-section container">
+            <h3>Onde nos Encontrar</h3>
+            <div class="location-content">
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.267151061988!2d-35.4294026252934!3d-6.577237093414929!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7b58c5f5f4b5f97%3A0x7d6f5f3e4c7d6f5f!2sNova%20Cruz%2C%20RN!5e0!3m2!1spt-BR!2sbr!4v1717882200000!5m2!1spt-BR!2sbr"
+                            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <div class="address-info">
+                    <h4>Visite-nos!</h4>
+                    <p>Rua Exemplo, 123 - Centro</p>
+                    <p>Nova Cruz - RN, 59216-000</p>
+                    <p>Brasil</p>
+                    <p><strong>Telefone:</strong> (84) 1234-5678</p>
+                    <p><strong>E-mail:</strong> contato@minhalojadecarros.com</p>
+                    <p><strong>Horário de Funcionamento:</strong></p>
+                    <p>Segunda a Sexta: 9h - 18h</p>
+                    <p>Sábado: 9h - 13h</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Minha Loja de Carros. Todos os direitos reservados.</p>
+            <div class="social-links">
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    // --- Carrossel de Destaque ---
+    const carouselContainer = document.querySelector('.carousel-container');
+    const carouselSlides = document.querySelectorAll('.carousel-slide');
+    const prevButton = document.querySelector('.carousel-button.prev');
+    const nextButton = document.querySelector('.carousel-button.next');
+    let currentIndex = 0;
+    const totalSlides = carouselSlides.length;
+
+    // Função para mostrar o slide correto
+    function showSlide(index) {
+        if (index >= totalSlides) {
+            currentIndex = 0; // Volta para o primeiro slide
+        } else if (index < 0) {
+            currentIndex = totalSlides - 1; // Volta para o último slide
+        } else {
+            currentIndex = index;
+        }
+        // Move o container do carrossel para exibir o slide atual
+        const offset = -currentIndex * 100;
+        carouselContainer.style.transform = `translateX(${offset}%)`;
+    }
+
+    // Eventos para os botões de navegação do carrossel
+    prevButton.addEventListener('click', () => {
+        showSlide(currentIndex - 1);
+    });
+
+    nextButton.addEventListener('click', () => {
+        showSlide(currentIndex + 1);
+    });
+
+    // Auto-avanço do carrossel (opcional: muda de slide a cada 5 segundos)
+    setInterval(() => {
+        showSlide(currentIndex + 1);
+    }, 5000); // 5000 milissegundos = 5 segundos
+
+    // --- Listagem de Carros ---
+    const carGrid = document.getElementById('car-grid');
+    const loadMoreBtn = document.getElementById('load-more-btn');
+
+    // Dados simulados de carros que seriam carregados DINAMICAMENTE
+    // Em uma aplicação real, estes dados viriam do seu backend (ex: Spring Boot API)
+    const allCars = [
+        { model: 'Modelo D', brand: 'Marca D', year: 2021, price: 'R$ 65.000', img: 'https://via.placeholder.com/300x200?text=Carro+Modelo+4' },
+        { model: 'Modelo E', brand: 'Marca E', year: 2023, price: 'R$ 95.000', img: 'https://via.placeholder.com/300x200?text=Carro+Modelo+5' },
+        { model: 'Modelo F', brand: 'Marca F', year: 2022, price: 'R$ 78.000', img: 'https://via.placeholder.com/300x200?text=Carro+Modelo+6' },
+        { model: 'Modelo G', brand: 'Marca G', year: 2024, price: 'R$ 120.000', img: 'https://via.placeholder.com/300x200?text=Carro+Modelo+7' },
+        { model: 'Modelo H', brand: 'Marca H', year: 2020, price: 'R$ 55.000', img: 'https://via.placeholder.com/300x200?text=Carro+Modelo+8' },
+        { model: 'Modelo I', brand: 'Marca I', year: 2023, price: 'R$ 90.000', img: 'https://via.placeholder.com/300x200?text=Carro+Modelo+9' },
+    ];
+
+    // Contagem de carros que já estão visíveis (os 3 iniciais no HTML)
+    let carsLoaded = 3;
+
+    // Função para criar um card de carro a partir dos dados
+    function createCarCard(car) {
+        const carCard = document.createElement('div');
+        carCard.classList.add('car-card');
+
+        carCard.innerHTML = `
+            <img src="${car.img}" alt="${car.model}">
+            <h4>${car.model}</h4>
+            <p>${car.brand} | ${car.year}</p>
+            <span class="price">${car.price}</span>
+            <button class="btn-secondary">Ver Detalhes</button>
+        `;
+        return carCard;
+    }
+
+    // Função para carregar mais carros dinamicamente
+    function loadMoreCars() {
+        const nextCars = allCars.slice(carsLoaded, carsLoaded + 3); // Pega os próximos 3 carros
+        if (nextCars.length > 0) {
+            nextCars.forEach(car => {
+                carGrid.appendChild(createCarCard(car)); // Adiciona cada carro à grade
+            });
+            carsLoaded += nextCars.length; // Atualiza a contagem de carros carregados
+        }
+
+        // Faz o botão "Carregar Mais Carros" sumir após ser clicado
+        if (loadMoreBtn) {
+            loadMoreBtn.style.display = 'none';
+        }
+    }
+
+    // Adiciona o evento de clique ao botão "Carregar Mais Carros"
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', loadMoreCars);
+    }
+
+    // Lógica para esconder o botão "Carregar Mais Carros" se não houver NENHUM carro para carregar
+    // (ou seja, se a lista 'allCars' estiver vazia desde o início)
+    if (allCars.length === 0) {
+        if (loadMoreBtn) {
+            loadMoreBtn.style.display = 'none';
+        }
+    }
+
+    // --- Efeito de Hover nos Cards de Carro ---
+    // Usa delegação de eventos para garantir que funcione para elementos adicionados dinamicamente
+    carGrid.addEventListener('mouseover', (event) => {
+        const targetCard = event.target.closest('.car-card');
+        if (targetCard) {
+            targetCard.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.2)';
+            targetCard.style.transform = 'translateY(-8px)';
+        }
+    });
+
+    carGrid.addEventListener('mouseout', (event) => {
+        const targetCard = event.target.closest('.car-card');
+        if (targetCard) {
+            targetCard.style.boxShadow = '0 4px 8px var(--shadow-light)';
+            targetCard.style.transform = 'translateY(0)';
+        }
+    });
+});</script>
+</body>
+</html>
